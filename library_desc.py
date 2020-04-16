@@ -46,21 +46,36 @@ class BBCModules(cdl_desc.Modules):
 
     pass
 
+class SharedSrc(cdl_desc.Modules):
+    """
+    Code shared by the CPP C models and the executables
+    """
+    name = "bbc_shared"
+    src_dir     = "csrc"
+    include_dir = "csrc"
+    modules = []
+    modules += [ CSrc("bbc_shm") ]
+    pass
+
 class Models(cdl_desc.Modules):
     name = "bbc_models"
     src_dir     = "cmodel"
     include_dir = "cmodel"
     libraries = {"std":True, "apb":True, "video":True}
     modules = []
-    modules += [ CModel("bbc_display") ]
-    modules += [ CModel("bbc_floppy") ]
+    modules += [ CModel("bbc_display", cpp_include_dirs=["cmodel", "csrc"]) ]
+    modules += [ CModel("bbc_floppy",  cpp_include_dirs=["cmodel", "csrc"]) ]
     modules += [ CSrc("image_io") ] # used by bbc_display
-    modules += [ CSrc("bbc_shm") ]
     modules += [ CSrc("bbc_floppy_disk") ]
-    modules += [ CSrc("fb") ]
-    modules += [ CSrc("vnc_rfb") ]
-    # modules += [ CExec("bbc_display_vnc") ]
-    # g++ cmodel/bbc_display_vnc.cpp /Users/gavinprivate/Git/atcf_hardware_bbc_grip/atcf_hardware_bbc/build/bbc/lib_bbc.a -I cmodel -I ~/Git/cdl_tools_grip/tools/include/cdl/
+    pass
 
+class Executables(cdl_desc.Executables):
+    name = "display_vnc"
+    src_dir     = "csrc"
+    cpp_include_dirs = ["cmodel", "csrc"]
+    srcs = []
+    srcs += [ CSrc("bbc_display_vnc") ]
+    srcs += [ CSrc("fb") ]
+    srcs += [ CSrc("vnc_rfb") ]
     pass
 

@@ -20,4 +20,5 @@ smoke: sim
 bbc: sim
 	(cd test && PATH=${SRC_ROOT}/python:${PATH} ${MAKE} SIM=${SIM} bbc)
 
-$(info ${LIB__bbc__MAKEFILE})
+$(info ${BIN_OBJS__bbc__display_vnc})
+$(info ${BIN_LIBS__bbc__display_vnc})

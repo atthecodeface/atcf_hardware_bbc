@@ -1,0 +1,36 @@
+#a Copyright
+#  
+#  This file 'smoke.csm' copyright Gavin J Stark 2020
+#  
+#  This program is free software; you can redistribute it and/or modify it under
+#  the terms of the GNU General Public License as published by the Free Software
+#  Foundation, version 2.0.
+#  
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even implied warranty of MERCHANTABILITY
+#  or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
+#  for more details.
+
+module_force_option_int "bbc.bbc.bbc.saa.character_rom" "verbose" 0
+
+module_force_option_string "bbc.bbc.bbc.saa.character_rom" "filename" "roms/teletext.mif"
+module_force_option_string "bbc.bbc.bbc.basic" "filename" "roms/basic2.rom.mif"
+module_force_option_string "bbc.bbc.bbc.adfs"  "filename" "roms/adfs.rom.mif"
+module_force_option_string "bbc.bbc.bbc.os"    "filename" "roms/os12.rom.mif"
+module_force_option_string "bbc.bbc.io.bbc_ps2_kbd"    "kbd_map" "roms/ps2_kbd.mif"
+module_force_option_string "bbc.bbc.floppy"    "filename" "roms/elite.mif"
+module tb_bbc_with_shm_display bbc
+
+clock system_clk       0 1 1
+clock system_clk_div_2 0 2 2
+clock video_clk        0 1 1
+wire reset_n
+assign reset_n 0 10 1
+    
+drive bbc.system_clk       system_clk
+drive bbc.system_clk_div_2 system_clk_div_2
+drive bbc.video_clk        video_clk
+drive bbc.reset_n          reset_n
+
+end
+

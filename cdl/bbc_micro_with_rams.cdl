@@ -98,7 +98,8 @@ module bbc_micro_with_rams( clock clk "4MHz clock in as a minimum",
                       host_sram_response => bbc_micro_host_sram_response
             );
     
-        bbc_display_sram display_sram( clk <- clk_2MHz_video_clock,
+        bbc_display_sram display_sram( csr_clk <- clk,
+                                       clk <- clk_2MHz_video_clock,
                                        reset_n <= reset_n,
                                        display <= display,
                                        sram_write => display_sram_write,
@@ -145,6 +146,7 @@ module bbc_micro_with_rams( clock clk "4MHz clock in as a minimum",
                         reset_n <= reset_n,
                         video_bus => video_bus,
                         display_sram_write <= display_sram_access_req,
+                        csr_select <= 4,
                         csr_request <= csr_request,
                         csr_response => framebuffer_csr_response
             );

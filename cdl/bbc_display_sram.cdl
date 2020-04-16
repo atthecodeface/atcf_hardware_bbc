@@ -124,7 +124,8 @@ typedef struct {
 
 /*a Module
  */
-module bbc_display_sram( clock clk "Clock running at 2MHz",
+module bbc_display_sram( clock csr_clk "Clock for CSR bus",
+                         clock clk "Clock running at 2MHz",
                          input bit reset_n,
                          input t_bbc_display display,
                          output t_bbc_display_sram_write sram_write,
@@ -177,7 +178,7 @@ even 'lines' in SRAM, and odd lines just to the odd 'lines'.
 {
     /*b Defaults */
     default reset active_low reset_n;
-    default clock clk;
+    default clock csr_clk;
 
     clocked t_csrs          csrs = {*=0,
                                     sram_base_address            = 0x0000,
@@ -188,6 +189,8 @@ even 'lines' in SRAM, and odd lines just to the odd 'lines'.
                                     sram_scanlines=500,
                                     h_back_porch=-170,
                                     v_back_porch=-68 };
+
+    default clock clk;
     clocked t_display_state display_state={*=0};
     comb    t_display_combs display_combs;
     clocked t_sram_state    sram_state={*=0};
@@ -486,7 +489,7 @@ even 'lines' in SRAM, and odd lines just to the odd 'lines'.
     comb t_csr_access_data csr_read_data;
     control_logic """
     """: {
-        csr_target_csr csri( clk <- clk,
+        csr_target_csr csri( clk <- csr_clk,
                              reset_n <= reset_n,
                              csr_request <= csr_request,
                              csr_response => csr_response,

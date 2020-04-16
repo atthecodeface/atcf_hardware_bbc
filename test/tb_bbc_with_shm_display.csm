@@ -1,0 +1,31 @@
+#a Copyright
+#  
+#  This file 'smoke.csm' copyright Gavin J Stark 2020
+#  
+#  This program is free software; you can redistribute it and/or modify it under
+#  the terms of the GNU General Public License as published by the Free Software
+#  Foundation, version 2.0.
+#  
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even implied warranty of MERCHANTABILITY
+#  or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
+#  for more details.
+
+setenv "test_mif_filename" "smoke_rom.mif"
+read_hw_file tb_bbc_with_shm_display.hwex
+
+vcd_file waves
+waves.reset
+
+#waves.open "smoke.vcd"
+#waves.add_hierarchy bbc
+#waves.enable
+
+reset
+loop:
+step 1000000
+goto loop
+# waves.close
+
+end
+

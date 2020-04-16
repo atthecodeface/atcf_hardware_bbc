@@ -44,7 +44,8 @@ typedef struct t_bbc_display_sram_write_inputs {
     t_sl_uint64 *display_sram_write__enable;
     t_sl_uint64 *display_sram_write__data;
     t_sl_uint64 *display_sram_write__address;
-    t_sl_uint64 *csr_response__ack;
+    t_sl_uint64 *csr_response__acknowledge;
+    t_sl_uint64 *csr_response__read_data_error;
     t_sl_uint64 *csr_response__read_data_valid;
     t_sl_uint64 *csr_response__read_data;
     t_sl_uint64 *host_sram_response__ack;
@@ -254,7 +255,8 @@ c_bbc_display::c_bbc_display( class c_engine *eng, void *eng_handle )
     REGISTER_INPUT(display_sram_write__data,48);
     REGISTER_INPUT(display_sram_write__address,16);
 
-    REGISTER_INPUT(csr_response__ack,1);
+    REGISTER_INPUT(csr_response__acknowledge,1);
+    REGISTER_INPUT(csr_response__read_data_error,1);
     REGISTER_INPUT(csr_response__read_data_valid,1);
     REGISTER_INPUT(csr_response__read_data,32);
 
@@ -346,7 +348,7 @@ c_bbc_display::capture_inputs( void )
     input_display.enable  = inputs.display_sram_write__enable[0];
     input_display.data    = inputs.display_sram_write__data[0];
     input_display.address = inputs.display_sram_write__address[0];
-    csr_response.ack               = inputs.csr_response__ack[0];
+    csr_response.ack               = inputs.csr_response__acknowledge[0];
     csr_response.read_data_valid   = inputs.csr_response__read_data_valid[0];
     csr_response.read_data         = inputs.csr_response__read_data[0];
     host_sram_response.ack          = inputs.host_sram_response__ack[0];
@@ -390,6 +392,7 @@ c_bbc_display::preclock(void)
 void
 c_bbc_display::add_pending_csr_write_request(int select, int address, unsigned int data) {
     t_csr_request *csr_request;
+    fprintf(stderr,"bbc_display::Adding pending CSR request select %d address %d data %08x\n",select, address, data);
     if (num_pending_csr_requests == max_pending_csr_requests)
         return;
     csr_request = &(pending_csr_requests[num_pending_csr_requests]);
@@ -412,7 +415,7 @@ c_bbc_display::drive_pending_csr_request(void) {
     for (int i=0; i<num_pending_csr_requests; i++) {
         pending_csr_requests[i] = pending_csr_requests[i+1];
     }
-    fprintf(stderr,"Popped to %d requests\n",num_pending_csr_requests);
+    fprintf(stderr,"bbc_display::Popped to %d CSR requests\n",num_pending_csr_requests);
 }
 t_sl_error_level
 c_bbc_display::clock( void )

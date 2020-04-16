@@ -17,3 +17,7 @@ clean:
 smoke: sim
 	(cd test && PATH=${SRC_ROOT}/python:${PATH} ${MAKE} SIM=${SIM} smoke)
 
+bbc: sim
+	(cd test && PATH=${SRC_ROOT}/python:${PATH} ${MAKE} SIM=${SIM} bbc)
+
+$(info ${LIB__bbc__MAKEFILE})

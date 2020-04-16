@@ -324,7 +324,8 @@ extern module bbc_micro_with_rams( clock clk "4MHz clock in as a minimum",
 }
 
 /*m bbc_display_sram */
-extern module bbc_display_sram( clock clk "Clock running at 2MHz",
+extern module bbc_display_sram( clock csr_clk "CSR bus clock",
+                         clock clk "Clock running at 2MHz",
                          input bit reset_n,
                          input t_bbc_display display,
                          output t_bbc_display_sram_write sram_write,
@@ -332,8 +333,10 @@ extern module bbc_display_sram( clock clk "Clock running at 2MHz",
                          output t_csr_response csr_response
     )
 {
-    timing to   rising clock clk   display, csr_request;
-    timing from rising clock clk   sram_write, csr_response;
+    timing to   rising clock csr_clk   csr_request;
+    timing from rising clock csr_clk   csr_response;
+    timing to   rising clock clk   display;
+    timing from rising clock clk   sram_write;
 }
 
 /*m bbc_keyboard_csr */

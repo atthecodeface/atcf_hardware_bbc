@@ -48,7 +48,8 @@ c_bbc_shm::shm_alloc(int byte_size)
     }
     key = ftok(shm_lock_filename, shm_key);
     
-    shm_id = shmget(key, byte_size, SHM_HUGETLB | shm_flags );
+    // shm_id = shmget(key, byte_size, SHM_HUGETLB | shm_flags );
+    shm_id = shmget(key, byte_size, shm_flags );
     if (shm_id == -1) {
         fprintf(stderr,"Failed to allocate SHM id\n");
         close();

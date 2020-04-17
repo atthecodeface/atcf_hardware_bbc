@@ -1,4 +1,4 @@
-CDL_ROOT=/Users/gavinprivate/Git/cdl_tools_grip/tools
+CDL_ROOT ?= $(abspath $(dir $(abspath $(shell which cdl)))/.. )
 include ${CDL_ROOT}/lib/cdl/cdl_templates.mk
 SRC_ROOT   = $(abspath ${CURDIR})
 OTHER_SRCS = ${SRC_ROOT}/../*
@@ -14,11 +14,10 @@ clean:
 	rm -rf ${BUILD_ROOT}
 	mkdir -p ${BUILD_ROOT}
 
-smoke: sim
-	(cd test && PATH=${SRC_ROOT}/python:${PATH} ${MAKE} SIM=${SIM} smoke)
+.PHONY: smoke
+smoke: ${SIM}
+	(cd ${SRC_ROOT}/test && PATH=${SRC_ROOT}/python:${PATH} ${MAKE} SIM=${SIM} smoke)
 
-bbc: sim
-	(cd test && PATH=${SRC_ROOT}/python:${PATH} ${MAKE} SIM=${SIM} bbc)
-
-$(info ${BIN_OBJS__bbc__display_vnc})
-$(info ${BIN_LIBS__bbc__display_vnc})
+.PHONY: bbc
+bbc: ${SIM}
+	(cd ${SRC_ROOT}/test && PATH=${SRC_ROOT}/python:${PATH} ${MAKE} SIM=${SIM} bbc)

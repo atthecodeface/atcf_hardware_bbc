@@ -1,0 +1,30 @@
+doc="""
+This repository contains the source code for the BBC microcomputer CDL design.
+
+This is a full hardware design of the chips and the board of a BBC microcomputer.
+"""
+
+[env]
+SRC_ROOT     = "@GRIP_REPO_PATH@"
+BUILD_ROOT   = "@BUILD_DIR@"
+MAKE_OPTIONS = "-f @GRIP_REPO_PATH@/Makefile SRC_ROOT=@SRC_ROOT@ BUILD_ROOT=@BUILD_DIR@ LDFLAGS='-lpng -ljpeg'"
+
+[clean_sim]
+exec="mkdir -p @BUILD_DIR@ && cd @BUILD_DIR@ && make @MAKE_OPTIONS@ clean"
+
+[build_sim]
+requires=[".clean_sim"]
+wd="@BUILD_DIR@"
+exec="make @MAKE_OPTIONS@ -j8 all"
+
+[run_bbc]
+requires=[".build_sim"]
+wd="@BUILD_DIR@"
+exec="make @MAKE_OPTIONS@ SIM=@BUILD_DIR@/sim bbc"
+
+[run_vnc_rfb]
+requires=[".build_sim"]
+wd="@BUILD_DIR@"
+exec="./bbc_display_vnc"
+
+

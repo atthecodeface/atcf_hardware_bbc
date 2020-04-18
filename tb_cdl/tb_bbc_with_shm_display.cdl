@@ -33,6 +33,7 @@ module tb_bbc_with_shm_display( clock system_clk,
     /*b Nets */
     default clock system_clk;
     default reset active_low reset_n;
+    net bit display_reset_n;
     net t_csr_request csr_request;
     net t_csr_response csr_response;
     net t_bbc_micro_sram_request   host_sram_request;
@@ -42,13 +43,14 @@ module tb_bbc_with_shm_display( clock system_clk,
         bbc_micro_with_rams bbc( clk<-system_clk,
                        video_clk<-video_clk,
 
-                       reset_n <= reset_n,
+                       reset_n <= display_reset_n && reset_n,
                        host_sram_request <= host_sram_request,
                        csr_request <= csr_request,
                        display_sram_write => display_sram_write,
                        host_sram_response => host_sram_response,
                        csr_response => csr_response );
         bbc_display display( clk <- system_clk_div_2,
+                             reset_n => display_reset_n,
                              host_sram_request => host_sram_request,
                              csr_request => csr_request,
                              display_sram_write <= display_sram_write,

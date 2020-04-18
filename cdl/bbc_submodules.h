@@ -397,7 +397,7 @@ extern module bbc_display( clock clk "Clock running at 2MHz",
 */
 
 extern module bbc_display( clock clk "Clock running at 2MHz",
-                           //input bit reset_n,
+                           output bit reset_n,
                             output t_csr_request csr_request,
                             input t_csr_response csr_response,
                             output t_bbc_micro_sram_request   host_sram_request,

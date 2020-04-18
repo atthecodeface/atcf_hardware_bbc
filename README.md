@@ -20,3 +20,10 @@ Elite.
 
 The design builds in an Altera FPGA; although not all the files have
 been ported to the grip environment repositories as yet.
+
+# VNC simulation
+
+You can connect to this on port 6980
+
+Function key F12 maps to the BBC break key.
+

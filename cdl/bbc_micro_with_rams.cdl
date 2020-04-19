@@ -77,7 +77,7 @@ module bbc_micro_with_rams( clock clk "4MHz clock in as a minimum",
         csr_response |= keyboard_csr_response;
         enable_clk_2MHz_video   = clock_control.enable_2MHz_video; // used for clock enable and to choose which source of SRAM read
         enable_cpu_clk          = clock_control.enable_cpu;
-        bbc_micro_clocking clocking( clk <- clk,
+        bbc_micro_clocking clocking_i( clk <- clk,
                                      reset_n <= reset_n,
                                      clock_status <= clock_status,
                                      clock_control => clock_control,

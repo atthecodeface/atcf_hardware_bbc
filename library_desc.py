@@ -46,6 +46,21 @@ class BBCModules(cdl_desc.Modules):
 
     pass
 
+class DE1Modules(cdl_desc.Modules):
+    name = "de1"
+    c_src_dir   = "cmodel"
+    src_dir     = "cdl"
+    tb_src_dir  = "tb_cdl"
+    include_dir = "cdl"
+    libraries = {"std":True, "apb":True, "video":True, "utils":True, "io":True, "de1":True}
+    export_dirs = [ src_dir, include_dir ]
+    modules = []
+    modules += [ CdlModule("bbc_micro_de1_cl") ]
+    modules += [ CdlModule("bbc_micro_de1_cl_io") ]
+    modules += [ CdlModule("bbc_micro_de1_cl_bbc") ]
+
+    pass
+
 class SharedSrc(cdl_desc.Modules):
     """
     Code shared by the CPP C models and the executables

@@ -27,7 +27,7 @@ include "apb::csr.h"
 include "video::video.h"
 include "video::teletext.h"
 include "bbc_types.h"
-// include "ps2.h"
+include "io::ps2.h"
 // include "types/sram.h"
 
 /*a Modules */
@@ -353,7 +353,6 @@ extern module bbc_keyboard_csr( clock clk "Clock running at 2MHz",
 }
 
 /*m bbc_keyboard_ps2 */
-/*
 extern
 module bbc_keyboard_ps2( clock clk "Clock of PS2 keyboard",
                          input bit reset_n,
@@ -364,7 +363,6 @@ module bbc_keyboard_ps2( clock clk "Clock of PS2 keyboard",
     timing to   rising clock clk   ps2_key;
     timing from rising clock clk   keyboard;
 }
-*/
 
 /*m bbc_floppy_sram */
 extern module bbc_floppy_sram( clock clk "Clock running at 2MHz",

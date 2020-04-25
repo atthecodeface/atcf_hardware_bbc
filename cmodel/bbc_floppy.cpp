@@ -198,10 +198,6 @@ c_bbc_floppy::c_bbc_floppy( class c_engine *eng, void *eng_handle )
     memset(&inputs, 0, sizeof(inputs));
     memset(&input_floppy_op, 0, sizeof(input_floppy_op));
 
-    engine->register_prepreclock_fn( engine_handle, (void *)this, bbc_floppy_prepreclock_fn );
-    engine->register_preclock_fns( engine_handle, (void *)this, "clk", bbc_floppy_preclock_posedge_clk_fn, (t_engine_callback_fn) NULL );
-    engine->register_clock_fn( engine_handle, (void *)this, "clk", engine_sim_function_type_posedge_clock, bbc_floppy_clock_fn );
-
 #define REGISTER_OUTPUT(s,w) \
     engine->register_output_signal(engine_handle, #s, w, &outputs.s); \
     engine->register_output_generated_on_clock(engine_handle, #s, "clk", 1 );

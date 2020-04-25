@@ -32,6 +32,7 @@ class BBCModules(cdl_desc.Modules):
     libraries = {"std":True, "apb":True, "video":True}
     export_dirs = [ src_dir, include_dir ]
     modules = []
+    modules += [ CdlModule("bbc_keyboard_ps2") ]
     modules += [ CdlModule("bbc_keyboard_csr") ]
     modules += [ CdlModule("bbc_vidproc") ]
     modules += [ CdlModule("bbc_display_sram") ]

@@ -80,7 +80,7 @@ module bbc_micro_de1_cl_bbc( clock clk          "50MHz clock from DE1 clock gene
         combined_csr_response |= floppy_sram_csr_response;
         combined_csr_response |= framebuffer_csr_response;
         csr_response <= combined_csr_response;
-        bbc_micro_clocking clocking( clk <- clk,
+        bbc_micro_clocking clocking_i( clk <- clk,
                                      reset_n <= reset_n,
                                      clock_status <= clock_status,
                                      clock_control => clock_control,

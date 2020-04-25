@@ -177,8 +177,10 @@ c_bbc_floppy::c_bbc_floppy( class c_engine *eng, void *eng_handle )
     engine = eng;
     engine_handle = eng_handle;
 
-    engine->register_delete_function( engine_handle, (void *)this, bbc_floppy_delete_fn );
+    engine->register_delete_function( engine_handle, [this](){delete(this);} );
     engine->register_message_function( engine_handle, (void *)this, bbc_floppy_message );
+    engine->register_prepreclock_fn( engine_handle, [this](){this->prepreclock();} );
+    engine->register_clock_fns( engine_handle, "clk", [this](){this->preclock();}, [this](){this->clock();} );
 
     //const char *shm_lock_filename="/tmp/bbc_shm.lock";
     //const int shm_key = 0xbbc;

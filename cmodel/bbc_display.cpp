@@ -209,8 +209,10 @@ c_bbc_display::c_bbc_display( class c_engine *eng, void *eng_handle )
     engine = eng;
     engine_handle = eng_handle;
 
-    engine->register_delete_function( engine_handle, (void *)this, bbc_display_delete_fn );
+    engine->register_delete_function( engine_handle, [this](){delete(this);} );
     engine->register_message_function( engine_handle, (void *)this, bbc_display_message );
+    engine->register_prepreclock_fn( engine_handle, [this](){this->prepreclock();} );
+    engine->register_clock_fns( engine_handle, "clk", [this](){this->preclock();}, [this](){this->clock();} );
 
     const char *shm_lock_filename="/tmp/bbc_shm.lock";
     const int shm_key = 0xbbc;
@@ -240,10 +242,6 @@ c_bbc_display::c_bbc_display( class c_engine *eng, void *eng_handle )
 
     memset(&inputs, 0, sizeof(inputs));
     memset(&input_display, 0, sizeof(input_display));
-
-    engine->register_prepreclock_fn( engine_handle, (void *)this, bbc_display_prepreclock_fn );
-    engine->register_preclock_fns( engine_handle, (void *)this, "clk", bbc_display_preclock_posedge_clk_fn, (t_engine_callback_fn) NULL );
-    engine->register_clock_fn( engine_handle, (void *)this, "clk", engine_sim_function_type_posedge_clock, bbc_display_clock_fn );
 
 #define REGISTER_OUTPUT(s,w) \
     engine->register_output_signal(engine_handle, #s, w, &outputs.s); \

@@ -436,7 +436,7 @@ c_bbc_display::clock( void )
                 fbk.fbk->fb_data[address++] = (color | 0xff000000);
             }
         }
-        outputs.reset_n = !(reset_cycle>0);
+        outputs.reset_n = (reset_cycle==0) || (reset_cycle>90);
         if (reset_cycle>0) { reset_cycle--; }
         if (fbk.fbk->reset_pressed) { reset_cycle=10000; }
         if (reset_cycle==1) {

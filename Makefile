@@ -10,7 +10,7 @@ all: sim
 
 $(eval $(call cdl_makefile_template,${SRC_ROOT},${BUILD_ROOT},${OTHER_SRCS}))
 
-clean:
+old_clean:
 	rm -rf ${BUILD_ROOT}
 	mkdir -p ${BUILD_ROOT}
 

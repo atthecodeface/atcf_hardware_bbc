@@ -766,6 +766,7 @@ module bbc_micro( clock clk "Clock at least at '4MHz' - CPU runs at least half o
     }
 
     /*b Databus multiplexing */
+    default clock clk;
     databus_multiplexing """
     """:  {
         ram_databus = 0;

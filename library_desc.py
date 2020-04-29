@@ -44,6 +44,12 @@ class BBCModules(cdl_desc.Modules):
     modules += [ CdlModule("bbc_micro_rams") ]
 
     modules += [ CdlModule("tb_bbc_with_shm_display", src_dir=tb_src_dir) ]
+    modules += [ CdlModule("tb_cwv_bbc_with_shm_display",
+                           src_dir=tb_src_dir,
+                           cdl_filename="tb_bbc_with_shm_display",
+                           cdl_module_name="tb_bbc_with_shm_display",
+                           instance_types={"bbc_micro_with_rams":"cwv__bbc_micro_with_rams"}
+    ) ]
 
     pass
 
@@ -83,6 +89,15 @@ class Models(cdl_desc.Modules):
     modules += [ CModel("bbc_floppy",  cpp_include_dirs=["cmodel", "csrc"]) ]
     modules += [ CSrc("image_io") ] # used by bbc_display
     modules += [ CSrc("bbc_floppy_disk") ]
+    pass
+
+class CV_bbc_micro_with_rams(cdl_desc.VerilatedModels):
+    name = "bbc_micro_with_rams"
+    model_name = name
+    cdl_filename = "bbc_micro_with_rams"
+    src_dir = "cdl"
+    cpp_filename = "bbc_micro_with_rams"
+    obj_filename = "bbc_micro_with_rams"
     pass
 
 class Executables(cdl_desc.Executables):

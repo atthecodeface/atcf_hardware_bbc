@@ -19,13 +19,15 @@ module_force_option_string "bbc.bbc.bbc.adfs"  "filename" "roms/adfs.rom.mif"
 module_force_option_string "bbc.bbc.bbc.os"    "filename" "roms/os12.rom.mif"
 module_force_option_string "bbc.bbc.io.bbc_ps2_kbd"    "kbd_map" "roms/ps2_kbd.mif"
 module_force_option_string "bbc.bbc.floppy"    "filename" "roms/elite.mif"
-module tb_bbc_with_shm_display bbc
+module tb_cwv_bbc_with_shm_display bbc
 
 clock system_clk       0 1 1
 clock system_clk_div_2 0 2 2
 clock video_clk        0 1 1
-wire reset_n
-assign reset_n 0 10 1
+wire reset1_n reset2 reset_n
+assign reset1_n 0 10 1
+assign reset2   1  5 0
+logic or reset_n reset1_n reset2
     
 drive bbc.system_clk       system_clk
 drive bbc.system_clk_div_2 system_clk_div_2

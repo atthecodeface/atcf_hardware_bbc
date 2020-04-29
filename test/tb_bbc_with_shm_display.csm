@@ -17,15 +17,19 @@ read_hw_file tb_bbc_with_shm_display.hwex
 vcd_file waves
 waves.reset
 
-waves.open "smoke.vcd"
-waves.add_hierarchy bbc
-waves.enable
+# waves.open "smoke.vcd"
+# waves.add_hierarchy bbc
+# waves.enable
+# waves.close
 
 reset
+
+# step 100000
+# waves.close
+
 loop:
 step 1000000
 goto loop
- waves.close
 
 end
 

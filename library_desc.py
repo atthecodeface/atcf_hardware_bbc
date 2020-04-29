@@ -93,6 +93,7 @@ class Models(cdl_desc.Modules):
 
 class CV_bbc_micro_with_rams(cdl_desc.VerilatedModels):
     name = "bbc_micro_with_rams"
+    cdl_include_dirs = ["cdl"]
     model_name = name
     cdl_filename = "bbc_micro_with_rams"
     src_dir = "cdl"

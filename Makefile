@@ -10,10 +10,6 @@ all: sim
 
 $(eval $(call cdl_makefile_template,${SRC_ROOT},${BUILD_ROOT},${OTHER_SRCS}))
 
-old_clean:
-	rm -rf ${BUILD_ROOT}
-	mkdir -p ${BUILD_ROOT}
-
 .PHONY: smoke
 smoke: ${SIM}
 	(cd ${SRC_ROOT}/test && PATH=${SRC_ROOT}/python:${PATH} ${MAKE} SIM=${SIM} smoke)

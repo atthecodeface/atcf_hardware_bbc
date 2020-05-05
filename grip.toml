@@ -21,10 +21,12 @@ exec="make @MAKE_OPTIONS@ -j8 all"
 requires=[".build_sim"]
 wd="@BUILD_DIR@"
 exec="make @MAKE_OPTIONS@ SIM=@BUILD_DIR@/sim bbc"
+action="yes"
 
 [run_vnc_rfb]
 requires=[".build_sim"]
 wd="@BUILD_DIR@"
 exec="./bbc_display_vnc"
+action="yes"
 
 

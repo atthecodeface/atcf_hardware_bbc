@@ -142,55 +142,6 @@ bbc_display_instance_fn( c_engine *engine, void *engine_handle )
     return error_level_okay;
 }
 
-/*f bbc_display_delete_fn - simple callback wrapper for the main method */
-static t_sl_error_level
-bbc_display_delete_fn( void *handle )
-{
-    c_bbc_display *mod;
-    t_sl_error_level result;
-    mod = (c_bbc_display *)handle;
-    result = mod->delete_instance();
-    delete( mod );
-    return result;
-}
-
-/*f bbc_display_prepreclock_fn */
-static t_sl_error_level
-bbc_display_prepreclock_fn( void *handle )
-{
-    c_bbc_display *mod;
-    mod = (c_bbc_display *)handle;
-    return mod->prepreclock();
-}
-
-/*f bbc_display_clock_fn */
-static t_sl_error_level
-bbc_display_clock_fn( void *handle )
-{
-    c_bbc_display *mod;
-    mod = (c_bbc_display *)handle;
-    return mod->clock();
-}
-
-/*f bbc_display_message  */
-static t_sl_error_level
-bbc_display_message( void *handle, void *arg )
-{
-    c_bbc_display *mod;
-    mod = (c_bbc_display *)handle;
-    return mod->message((t_se_message *)arg );
-}
-
-/*f bbc_display_preclock_posedge_clk_fn */
-static t_sl_error_level
-bbc_display_preclock_posedge_clk_fn( void *handle )
-{
-    c_bbc_display *mod;
-    mod = (c_bbc_display *)handle;
-    mod->preclock();
-    return error_level_okay;
-}
-
 /*a Constructors and destructors for bbc_display */
 /*f c_bbc_display::c_bbc_display */
 /**
@@ -210,7 +161,7 @@ c_bbc_display::c_bbc_display( class c_engine *eng, void *eng_handle )
     engine_handle = eng_handle;
 
     engine->register_delete_function( engine_handle, [this](){delete(this);} );
-    engine->register_message_function( engine_handle, (void *)this, bbc_display_message );
+    engine->register_message_function( engine_handle, [this](t_se_message *m){this->message(m);});
     engine->register_prepreclock_fn( engine_handle, [this](){this->prepreclock();} );
     engine->register_clock_fns( engine_handle, "clk", [this](){this->preclock();}, [this](){this->clock();} );
 

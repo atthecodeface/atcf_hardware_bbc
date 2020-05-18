@@ -6,8 +6,9 @@ This is a full hardware design of the chips and the board of a BBC microcomputer
 
 [env]
 SRC_ROOT     = "@GRIP_REPO_PATH@"
+TEST_DIR     = "@GRIP_REPO_PATH@/test"
 BUILD_ROOT   = "@BUILD_DIR@"
-MAKE_OPTIONS = "-f @GRIP_REPO_PATH@/Makefile SRC_ROOT=@SRC_ROOT@ BUILD_ROOT=@BUILD_DIR@ LDFLAGS='-lpng -ljpeg'"
+MAKE_OPTIONS = "-f @GRIP_REPO_PATH@/Makefile SRC_ROOT=@SRC_ROOT@ BUILD_ROOT=@BUILD_DIR@ TEST_DIR=@TEST_DIR@ LDFLAGS='-lpng -ljpeg'"
 
 [clean_sim]
 exec="mkdir -p @BUILD_DIR@ && cd @BUILD_DIR@ && make @MAKE_OPTIONS@ clean"

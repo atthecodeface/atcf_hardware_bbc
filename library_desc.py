@@ -1,5 +1,5 @@
 import cdl_desc
-from cdl_desc import CdlModule, CModel, CSrc
+from cdl_desc import CdlModule, CdlSimVerilatedModule, CModel, CSrc
 
 class Library(cdl_desc.Library):
     name="bbc"
@@ -7,12 +7,12 @@ class Library(cdl_desc.Library):
 
 class BBCChips(cdl_desc.Modules):
     name = "bbc"
-    c_src_dir   = "cmodel"
-    src_dir     = "cdl"
-    tb_src_dir  = "tb_cdl"
-    include_dir = "cdl"
+    c_src_dir    = "cmodel"
+    src_dir      = "cdl"
+    tb_src_dir   = "tb_cdl"
     libraries = {"std":True, "apb":True, "video":True}
-    export_dirs = [ src_dir, include_dir ]
+    cdl_include_dirs = ["cdl"]
+    export_dirs = cdl_include_dirs + [ src_dir ]
     modules = []
     modules += [ CdlModule("fdc8271") ]
     modules += [ CdlModule("acia6850") ]
@@ -28,9 +28,9 @@ class BBCModules(cdl_desc.Modules):
     c_src_dir   = "cmodel"
     src_dir     = "cdl"
     tb_src_dir  = "tb_cdl"
-    include_dir = "cdl"
+    cdl_include_dirs = ["cdl"]
     libraries = {"std":True, "apb":True, "video":True}
-    export_dirs = [ src_dir, include_dir ]
+    export_dirs = cdl_include_dirs + [ src_dir ]
     modules = []
     modules += [ CdlModule("bbc_keyboard_ps2") ]
     modules += [ CdlModule("bbc_keyboard_csr") ]
@@ -40,8 +40,15 @@ class BBCModules(cdl_desc.Modules):
     modules += [ CdlModule("bbc_micro_keyboard") ]
     modules += [ CdlModule("bbc_micro_clocking") ]
     modules += [ CdlModule("bbc_micro") ]
-    modules += [ CdlModule("bbc_micro_with_rams") ]
     modules += [ CdlModule("bbc_micro_rams") ]
+    modules += [ CdlModule("bbc_micro_with_rams") ]
+
+    modules += [ CdlSimVerilatedModule("cwv__bbc_micro_with_rams",
+                                       cdl_filename="bbc_micro_with_rams",
+                                       verilog_filename="bbc_micro_with_rams",
+                                       extra_verilog=["../std/srw_srams.v", "../std/mrw_srams.v"]) ]
+    pass
+
 
     modules += [ CdlModule("tb_bbc_with_shm_display", src_dir=tb_src_dir) ]
     modules += [ CdlModule("tb_cwv_bbc_with_shm_display",
@@ -55,12 +62,12 @@ class BBCModules(cdl_desc.Modules):
 
 class DE1Modules(cdl_desc.Modules):
     name = "de1"
+    libraries = {"std":True, "apb":True, "video":True, "utils":True, "io":True, "de1":True}
     c_src_dir   = "cmodel"
     src_dir     = "cdl"
     tb_src_dir  = "tb_cdl"
-    include_dir = "cdl"
-    libraries = {"std":True, "apb":True, "video":True, "utils":True, "io":True, "de1":True}
-    export_dirs = [ src_dir, include_dir ]
+    cdl_include_dirs = ["cdl"]
+    export_dirs      = cdl_include_dirs + [ src_dir ]
     modules = []
     modules += [ CdlModule("bbc_micro_de1_cl") ]
     modules += [ CdlModule("bbc_micro_de1_cl_io") ]
@@ -73,16 +80,16 @@ class SharedSrc(cdl_desc.Modules):
     Code shared by the CPP C models and the executables
     """
     name = "bbc_shared"
-    src_dir     = "csrc"
-    include_dir = "csrc"
+    src_dir      = "csrc"
+    cpp_include_dirs = ["csrc"]
     modules = []
     modules += [ CSrc("bbc_shm") ]
     pass
 
 class Models(cdl_desc.Modules):
     name = "bbc_models"
-    src_dir     = "cmodel"
-    include_dir = "cmodel"
+    src_dir      = "cmodel"
+    cpp_include_dirs = ["cmodel"]
     libraries = {"std":True, "apb":True, "video":True}
     modules = []
     modules += [ CModel("bbc_display", cpp_include_dirs=["cmodel", "csrc"]) ]
@@ -91,17 +98,7 @@ class Models(cdl_desc.Modules):
     modules += [ CSrc("bbc_floppy_disk") ]
     pass
 
-class CV_bbc_micro_with_rams(cdl_desc.VerilatedModels):
-    name = "bbc_micro_with_rams"
-    cdl_include_dirs = ["cdl"]
-    model_name = name
-    cdl_filename = "bbc_micro_with_rams"
-    src_dir = "cdl"
-    cpp_filename = "bbc_micro_with_rams"
-    obj_filename = "bbc_micro_with_rams"
-    pass
-
-class Executables(cdl_desc.Executables):
+class Executable(cdl_desc.Executable):
     name = "display_vnc"
     src_dir     = "csrc"
     cpp_include_dirs = ["cmodel", "csrc"]

@@ -4,3 +4,15 @@ sim
 *vcd
 *mif
 __pycache__
+fpga/projects/de1_cl/PLLJ_PLLSPE_INFO.txt
+fpga/projects/de1_cl/bbc.qsf
+fpga/projects/de1_cl/bbc_assignment_defaults.qdf
+fpga/projects/de1_cl/bbc_project.qpf
+fpga/projects/de1_cl/bbc_project.qsf
+fpga/projects/de1_cl/c5_pin_model_dump.txt
+fpga/projects/de1_cl/db/
+fpga/projects/de1_cl/incremental_db/
+fpga/projects/de1_cl/tb_6502_project.qpf
+fpga/projects/de1_cl/tb_6502_project.qsf
+fpga/projects/de1_cl/tb_6502_project.sdc
+fpga/projects/de1_cl/tb_6502_project.tcl

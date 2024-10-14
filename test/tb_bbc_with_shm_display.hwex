@@ -18,8 +18,11 @@ module_force_option_string "bbc.bbc.bbc.basic" "filename" "roms/basic2.rom.mif"
 module_force_option_string "bbc.bbc.bbc.adfs"  "filename" "roms/adfs.rom.mif"
 module_force_option_string "bbc.bbc.bbc.os"    "filename" "roms/os12.rom.mif"
 module_force_option_string "bbc.bbc.io.bbc_ps2_kbd"    "kbd_map" "roms/ps2_kbd.mif"
-module_force_option_string "bbc.bbc.floppy"    "filename" "roms/elite.mif"
-module tb_cwv_bbc_with_shm_display bbc
+module_force_option_string "bbc.bbc.rams.floppy"    "filename" "roms/elite.mif"
+
+# Using CDL-wrapped-verilator will not pass the MIF options through
+# module tb_cwv_bbc_with_shm_display bbc
+module tb_bbc_with_shm_display bbc
 
 clock system_clk       0 1 1
 clock system_clk_div_2 0 2 2
